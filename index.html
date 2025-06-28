@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>JFW Baseball Card Browser</title>
+
+  <!-- Tailwind (dark mode enabled by “class” strategy) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            mlbBlue:  { DEFAULT: '#13294B' },   /* navy-ish */
+            mlbRed:   { DEFAULT: '#C0111F' },
+            surface:  { DEFAULT: '#1F2937' }    /* Tailwind gray-800 */
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-surface text-gray-100 min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-mlbBlue text-white p-4 shadow-md">
+    <h1 class="text-2xl font-bold">JFW Baseball Card Browser</h1>
+  </header>
+
+  <!-- Controls -->
+  <main class="flex-1 p-4">
+    <div class="flex flex-wrap gap-3 mb-4">
+      <input id="searchInput" type="text" placeholder="Search player or card #"
+             class="flex-1 px-3 py-2 rounded bg-gray-700 placeholder-gray-400 outline-none">
+      <select id="teamSelect" class="px-3 py-2 rounded bg-gray-700">
+        <option value="">Team</option>
+      </select>
+      <select id="yearSelect" class="px-3 py-2 rounded bg-gray-700">
+        <option value="">Year</option>
+      </select>
+      <select id="setSelect" class="px-3 py-2 rounded bg-gray-700">
+        <option value="">Set</option>
+      </select>
+      <select id="sortSelect" class="px-3 py-2 rounded bg-gray-700">
+        <option value="">Sort</option>
+        <option value="player">Player A → Z</option>
+        <option value="year">Year ↓</option>
+        <option value="value-desc">Value ↓</option>
+        <option value="value-asc">Value ↑</option>
+      </select>
+    </div>
+
+    <!-- Card grid -->
+    <div id="cardsGrid" class="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"></div>
+  </main>
+
+  <!-- Modal -->
+  <div id="cardModal"
+       class="fixed inset-0 hidden items-center justify-center p-4 bg-black/70 backdrop-blur">
+    <div class="relative bg-surface rounded-lg shadow-2xl max-w-lg w-full max-h-full overflow-auto">
+      <!---- OLD -->
+<!-- <button id="closeModal" …>&times;</button> -->
+
+<!---- NEW -->
+<button id="closeModal"
+        class="absolute right-3 top-3 w-10 h-10 flex items-center justify-center
+               rounded-full bg-white ring-2 ring-mlbBlue
+               hover:bg-mlbRed transition">
+
+  <!-- Accessible label for screen readers -->
+  <span class="sr-only">Close</span>
+
+  <!-- Baseball SVG -->
+  <svg class="w-6 h-6" viewBox="0 0 24 24" aria-hidden="true" fill="none">
+    <!-- outer circle (ball) -->
+    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5" />
+    <!-- left stitching -->
+    <path d="M7 4c1 2 1 5 1 8s0 6-1 8"
+          stroke="#C0111F" stroke-width="1.5" fill="none"/>
+    <!-- right stitching -->
+    <path d="M17 4c-1 2-1 5-1 8s0 6 1 8"
+          stroke="#C0111F" stroke-width="1.5" fill="none"/>
+  </svg>
+</button>
+      <div id="modalContent" class="p-4"></div>
+    </div>
+  </div>
+
+  <script type="module" src="cards.js"></script>
+</body>
+</html>
